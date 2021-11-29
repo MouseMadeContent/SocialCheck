@@ -4,9 +4,14 @@ from random import choice
 
 class ChecK():
 
+    
     def __init__(self):
         self.email = str(input(Fore.CYAN +  "Enter Email: "))
         self.twitter()
+        self.instagram()
+        self.pinterest()
+        self.spotify()
+
 
     def PrintT(self):
         print(Fore.GREEN + f"{self.email} =  Linked"+"\n")
@@ -15,10 +20,8 @@ class ChecK():
         print(Fore.RED + f"{self.email} = Unlinked"+"\n")
 
     def twitter(self):
-        print("==================")
-        print(Fore.MAGENTA + "[+] Twitter [+]")
-        print("")
-        r = requests.Session()
+        self.printTarget("Twitter")
+        r = requests.Session()  
         url = "https://api.twitter.com/i/users/email_available.json?email="+self.email
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36"
         Host = "api.twitter.com"
@@ -34,12 +37,16 @@ class ChecK():
             self.PrintT() 
         else:
             self.PrintF()
-        self.instagram()
+        
+
+    def printTarget(self,target):
+        print("==================")
+        print(Fore.MAGENTA + "[+] "+target+" [+]")
+        print("")
+
 
     def instagram(self):
-        print("==================")
-        print(Fore.MAGENTA + "[+] Instagram [+]")
-        print("")
+        self.printTarget("Instagram")
         r = requests.Session()
         url = "https://www.instagram.com/accounts/account_recovery_send_ajax/"
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36"
@@ -57,12 +64,10 @@ class ChecK():
             self.PrintT()
         else:
             self.PrintF()
-        self.pinterest()
+        
         
     def pinterest(self):
-        print("==================")
-        print(Fore.MAGENTA + "[+] Pinterest [+]")
-        print("")
+        self.printTarget("Pinterest")
         r = requests.Session()
         url = "https://www.pinterest.com/_ngjs/resource/EmailExistsResource/get"
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36"
@@ -82,12 +87,27 @@ class ChecK():
             self.PrintF()
    
         
+    def spotify(self):
+        self.printTarget("Spotify")
+        r = requests.Session()
+        url = "https://spclient.wg.spotify.com/signup/public/v1/account"
+        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36"
 
+        r.headers = {'user-agent': user_agent}
+        r.headers.update({'X-CSRFToken': "missing"})
+        
+        response = r.get(url,params={"validate": 1, "email": self.email}).json()
+        print('')
 
+        if response["status"] == 20:
+            self.PrintT()
+        else:
+            self.PrintF()
+            
 if __name__ == "__main__":
     print(Fore.MAGENTA + """
              [-] SocialMediaChecker [-]
-          [ Twitter - Instagram - Pinterest ]  """)
+          [ Twitter - Instagram - Pinterest - Spotify ]  """)
 
     print(Fore.CYAN + """
   _________             .__       .__  _________ .__                   __    
@@ -103,3 +123,4 @@ if __name__ == "__main__":
 
 print('')    
 print('Press enter to exit .')
+
