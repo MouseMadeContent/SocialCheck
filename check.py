@@ -47,7 +47,7 @@ class ChecK():
         r.headers.update({'X-CSRFToken': "missing"})
         data = {"email_or_username":self.email}
         req = r.post(url,data=data)
-        print(req.text)
+        print('')
         print('')
         if req.text.find("We sent an self.email to")>=0:
             self.PrintT()
